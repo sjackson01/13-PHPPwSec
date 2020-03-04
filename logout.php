@@ -7,7 +7,7 @@ session_start(); // Access the existing session
 if (!isset($_SESSION['user_id'])){
 
     // Need the function: 
-    require('includes/login_function.inc.php');
+    require('inc/login_function.inc.php');
     redirect_user();
 
     } else {
