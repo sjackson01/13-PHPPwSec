@@ -1,7 +1,5 @@
-<?php # Script 9.5 - register.php #2
+<?php # Script 13.7 - register.php #3
 // This script performs an INSERT query to add a record to the users table.
-
-session_start();
 
 $page_title = 'Register';
 include('inc/header.php');
@@ -39,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if ($_POST['pass1'] != $_POST['pass2']) {
 			$errors[] = 'Your password did not match the confirmed password.';
 		} else {
-			$p = mysqli_real_escape_string($dbc, trim($_POST['pass1']));
+			$p = password_hash(trim($_POST['pass1']), PASSWORD_DEFAULT);
 		}
 	} else {
 		$errors[] = 'You forgot to enter your password.';
@@ -50,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// Register the user in the database...
 
 		// Make the query:
-		$q = "INSERT INTO users (first_name, last_name, email, pass, registration_date) VALUES ('$fn', '$ln', '$e', SHA2('$p', 512), NOW() )";
+		$q = "INSERT INTO users (first_name, last_name, email, pass, registration_date) VALUES ('$fn', '$ln', '$e', '$p', NOW() )";
 		$r = @mysqli_query($dbc, $q); // Run the query.
 		if ($r) { // If it ran OK.
 
